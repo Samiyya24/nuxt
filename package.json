@@ -12,7 +12,8 @@
   "dependencies": {
     "flowbite": "^2.4.1",
     "nuxt": "^3.12.2",
-    "vue": "latest"
+    "vue": "latest",
+    "vue-awesome-paginate": "^1.2.0"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.12.0"

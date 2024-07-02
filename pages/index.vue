@@ -1,31 +1,38 @@
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, watch } from "vue";
 import { useRouter } from "vue-router";
 
 const searchQuery = ref("");
 const products = ref([]);
+const currentPage = ref(1);
+const totalItems = ref(0);
+const itemsPerPage = 10;
 
-const filteredProducts = computed(() => {
-  if (!searchQuery.value) {
-    return products.value;
-  }
-  return products.value.filter((item) =>
-    item.title.toLowerCase().includes(searchQuery.value.toLowerCase())
-  );
-});
-
-onMounted(async () => {
+const fetchProducts = async (query = "", page = 1) => {
+  const skip = (page - 1) * itemsPerPage;
   try {
-    const response = await fetch("https://dummyjson.com/products");
+    const response = await fetch(
+      `https://dummyjson.com/products/search?q=${query}&limit=${itemsPerPage}&skip=${skip}`
+    );
     const data = await response.json();
     products.value = data.products;
+    totalItems.value = data.total;
   } catch (error) {
     console.error("Error fetching products:", error);
   }
+};
+
+onMounted(() => {
+  fetchProducts();
+});
+
+watch([searchQuery, currentPage], () => {
+  fetchProducts(searchQuery.value, currentPage.value);
 });
 
 const router = useRouter();
 </script>
+
 <template>
   <Navbar />
   <div class="container mt-32">
@@ -40,7 +47,7 @@ const router = useRouter();
     <div class="grid md:grid-cols-5 grid-cols-2 gap-[20px]">
       <router-link
         :to="`/products/${item.id}`"
-        v-for="(item, i) in filteredProducts"
+        v-for="(item, i) in products"
         :key="i"
         class="mb-[30px] bg-k_oq shadow-xl pb-5 relative"
       >
@@ -67,14 +74,17 @@ const router = useRouter();
         </p>
       </router-link>
     </div>
+
+    <div class="flex justify-center">
+      <vue-awesome-paginate
+        class="gap-5"
+        :total-items="totalItems"
+        :items-per-page="itemsPerPage"
+        :max-pages-shown="5"
+        v-model="currentPage"
+      />
+    </div>
   </div>
 </template>
 
-<style scoped>
-.container {
-  padding: 20px;
-}
-.input {
-  margin-bottom: 20px;
-}
-</style>
+<style scoped></style>

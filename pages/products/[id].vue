@@ -1,6 +1,6 @@
 <template>
   <Navbar />
-  <div class="container">
+  <div class="container mt-32">
     <div class="grid md:grid-cols-5 grid-cols-2 gap-[20px]">
       <div v-if="products" class="mb-[30px] bg-k_oq shadow-xl pb-5 relative">
         <img :src="products.thumbnail" alt="" />
