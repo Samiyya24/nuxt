@@ -15,7 +15,7 @@
           {{ products.title }}
         </p>
         <p
-          class="font-bold text-[14px] leading-[14px] mx-[16px] mt-[40px] text-k_asosiy line-through"
+          class="font-bold text-[14px] text-red-500 leading-[14px] mx-[16px] mt-[40px] text-k_asosiy line-through"
         >
           ${{ products.discountPercentage }}
         </p>
@@ -25,6 +25,11 @@
           ${{ products.price }}
         </p>
       </div>
+    </div>
+    <div class="flex justify-center">
+      <nuxt-link class="bg-blue-400 px-5 py-2 rounded text-white" to="/">
+        <- back</nuxt-link
+      >
     </div>
   </div>
 </template>

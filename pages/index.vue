@@ -75,7 +75,7 @@ const router = useRouter();
       </router-link>
     </div>
 
-    <div class="flex justify-center">
+    <div class="flex justify-center py-10">
       <vue-awesome-paginate
         class="gap-5"
         :total-items="totalItems"
